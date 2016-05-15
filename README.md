@@ -7,6 +7,8 @@ It is inspired by [Jasmine](http://jasmine.github.io) for Javascript. It is curr
 
 Lilac can be embedded into your mod and distributed with it.
 
+### Documentation
+
 Documentation can be found on the Lilac GitHub Wiki: https://github.com/chesko256/Lilac/wiki
 
 ### Installation
