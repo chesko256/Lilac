@@ -46,17 +46,18 @@
 
 <pre><code>function MonsterSpawnerSuite()
 
-    it( "should spawn monsters", MonsterSpawnerTest() )
+    it ( "should spawn monsters", MonsterSpawnerTest() )
 
 endFunction
+
 
 function MonsterSpawnerTest()
 
     spawner.SpawnMonsters()
 
-    expectInt( spawner.SpawnedMonsterCount, to, beEqualTo, 20 )
-    expectRef( spawner.LastSpawnedMonster, notTo, beNone )
-    expectForm( spawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon )
+    expectInt ( spawner.SpawnedMonsterCount, to, beEqualTo, 20 )
+    expectRef ( spawner.LastSpawnedMonster, notTo, beNone )
+    expectForm ( spawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon )
 
 endFunction
 </code></pre>
