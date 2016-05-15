@@ -1,5 +1,13 @@
+;/********s* Quest/Lilac
+* SCRIPTNAME
+*/;
 scriptname Lilac extends Quest
-{Papyrus unit test syntax and test runner. Base script for creating and running Lilac unit tests. Must be extended. Generally executed by "StartQuest <MyUnitTestQuest>" from the console."}
+{
+* OVERVIEW
+* Papyrus unit test syntax and test runner. Base script for creating and running Lilac unit tests. Must be extended. Generally executed by 
+* <pre> StartQuest <MyUnitTestQuest></pre>
+* from the console.}
+;*********/;
 
 string SystemName = "Lilac"
 string SystemVersion = "1.0"
@@ -203,12 +211,46 @@ int property INFO 					= 0 	autoReadOnly
 int property WARN 					= 1 	autoReadOnly
 int property ERROR 					= 2 	autoReadOnly
 
+;/********f* Lilac/describe
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines and executes a test suite.
+*
+* SYNTAX
+*/;
 function describe(string asTestSuiteName, bool abTestCases)
+;/*
+* PARAMETERS
+* * asTestSuiteName: The name of the test suite.
+* * abTestCases: A function that implements this suite's test cases.
+*
+* EXAMPLES
+describe("A test suite", myTestSuite())
+;*********/;
 	current_test_suite = asTestSuiteName
 	LogFailedTestSuites()
 endFunction
 
+;/********f* Lilac/it
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines and executes a test case (spec).
+*
+* SYNTAX
+*/;
 function it(string asTestCaseName, bool abTestSteps)
+;/*
+* PARAMETERS
+* * asTestCaseName: The name of the test case.
+* * abTestSteps: A function that implements this suite's test steps.
+*
+* EXAMPLES
+it("should do something", myTestCase())
+;*********/;
 	current_test_case = asTestCaseName
 	LogFailedTestCases()
 
@@ -238,20 +280,95 @@ function it(string asTestCaseName, bool abTestSteps)
 	beforeEach()
 endFunction
 
-; Extend
+;/********f* Lilac/beforeAll
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Override this function to run a block of code before any test case runs (including before any beforeEach).
+*
+* SYNTAX
+*/;
 function beforeAll()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+;Make sure the quest isn't running and is on stage 12 before every test.
+function beforeAll()
+	TheQuest.Stop()
+	TheQuest.SetStage(12)
+endFunction
+;*********/;
 endFunction
 
-; Extend
+;/********f* Lilac/beforeAll
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Override this function to run a block of code after all test cases run (including after any afterEach).
+*
+* SYNTAX
+*/;
 function afterAll()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+;Make sure the quest isn't running and is on stage 12 after every test.
+function afterAll()
+	TheQuest.Stop()
+	TheQuest.SetStage(12)
+endFunction
+;*********/;
 endFunction
 
-; Extend
+;/********f* Lilac/beforeEach
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Override this function to run a block of code before each test case.
+*
+* SYNTAX
+*/;
 function beforeEach()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+;Make sure the storm trooper is reset before every test.
+function beforeEach()
+	stormtrooper.Reset()
+endFunction
+;*********/;
 endFunction
 
-; Extend
+;/********f* Lilac/afterEach
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Override this function to run a block of code after each test case.
+*
+* SYNTAX
+*/;
 function afterEach()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+;Make sure the star destroyer is deleted after every test.
+function afterEach()
+	destroyer.Disable()
+	destroyer.Delete()
+endFunction
+;*********/;
 endFunction
 
 function LogFailedTestSuites()
@@ -282,7 +399,32 @@ function LogFailedTestCases()
 	endWhile
 endFunction
 
+;/********f* Lilac/expectForm
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected Forms.
+*
+* SYNTAX
+*/;
 function expectForm(Form akActual, bool abCondition, int aiMatcher, Form akExpected = None)
+;/*
+* PARAMETERS
+* * akActual: The form under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectForm(MyArmor, to, beEqualTo, PowerArmor)
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beTruthy
+* * beFalsy
+* * beNone
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
@@ -314,7 +456,32 @@ function expectForm(Form akActual, bool abCondition, int aiMatcher, Form akExpec
 	RaiseResult(result, akActual as string, abCondition, aiMatcher, akExpected as string)
 endFunction
 
+;/********f* Lilac/expectRef
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected ObjectReferences.
+*
+* SYNTAX
+*/;
 function expectRef(ObjectReference akActual, bool abCondition, int aiMatcher, ObjectReference akExpected = None)
+;/*
+* PARAMETERS
+* * akActual: The reference under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectRef(FalmerRef, to, beEqualTo, BossFalmerRef)
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beTruthy
+* * beFalsy
+* * beNone
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
@@ -346,7 +513,35 @@ function expectRef(ObjectReference akActual, bool abCondition, int aiMatcher, Ob
 	RaiseResult(result, akActual as string, abCondition, aiMatcher, akExpected as string)
 endFunction
 
+;/********f* Lilac/expectInt
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected integers.
+*
+* SYNTAX
+*/;
 function expectInt(int aiActual, bool abCondition, int aiMatcher, int aiExpected = -1)
+;/*
+* PARAMETERS
+* * akActual: The integer under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectInt(counter, to, beLessThan, 40)
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beLessThan
+* * beGreaterThan
+* * beLessThanOrEqualTo
+* * beGreaterThanOrEqualTo
+* * beTruthy
+* * beFalsy
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
@@ -390,7 +585,35 @@ function expectInt(int aiActual, bool abCondition, int aiMatcher, int aiExpected
 	RaiseResult(result, aiActual as string, abCondition, aiMatcher, aiExpected as string)
 endFunction
 
+;/********f* Lilac/expectFloat
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected floats.
+*
+* SYNTAX
+*/;
 function expectFloat(float afActual, bool abCondition, int aiMatcher, float afExpected = -1.0)
+;/*
+* PARAMETERS
+* * akActual: The float under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectFloat(GameHour.GetValue(), to, beGreaterThan, 19.0)
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beLessThan
+* * beGreaterThan
+* * beLessThanOrEqualTo
+* * beGreaterThanOrEqualTo
+* * beTruthy
+* * beFalsy
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
@@ -434,7 +657,31 @@ function expectFloat(float afActual, bool abCondition, int aiMatcher, float afEx
 	RaiseResult(result, afActual as string, abCondition, aiMatcher, afExpected as string)
 endFunction
 
+;/********f* Lilac/expectBool
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected booleans.
+*
+* SYNTAX
+*/;
 function expectBool(bool abActual, bool abCondition, int aiMatcher, bool abExpected = false)
+;/*
+* PARAMETERS
+* * akActual: The boolean under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectBool(Follower.IsEssential(), to, beTruthy)
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beTruthy
+* * beFalsy
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
@@ -462,7 +709,32 @@ function expectBool(bool abActual, bool abCondition, int aiMatcher, bool abExpec
 	RaiseResult(result, abActual as string, abCondition, aiMatcher, abExpected as string)
 endFunction
 
+;/********f* Lilac/expectString
+* API VERSION ADDED
+* 1
+*
+* DESCRIPTION
+* Defines a new expectation, comparing actual and expected booleans.
+*
+* SYNTAX
+*/;
 function expectString(string asActual, bool abCondition, int aiMatcher, string asExpected = "")
+;/*
+* PARAMETERS
+* * akActual: The boolean under test.
+* * abCondition: The condition (to or notTo).
+* * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+* * akExpected: The expected value.
+* 
+* EXAMPLES
+expectString("its a small world after all", to, contain, "world")
+* NOTES
+* Valid matchers for this expectation:
+* * beEqualTo
+* * beTruthy
+* * beFalsy
+* * contain
+;*********/;
 	bool result
 	if abCondition == to
 		if aiMatcher == beEqualTo
