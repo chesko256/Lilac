@@ -1,0 +1,409 @@
+_Extends **Quest**_
+## Overview
+Papyrus unit test syntax and test runner. Base script for creating and running Lilac unit tests. Must be extended. Generally executed by <pre> StartQuest <MyUnitTestQuest></pre> from the console.
+
+#### Member Functions
+* [describe](#Lilac_describe)
+* [it](#Lilac_it)
+* [beforeAll](#Lilac_beforeAll)
+* [afterAll](#Lilac_afterAll)
+* [beforeEach](#Lilac_beforeEach)
+* [afterEach](#Lilac_afterEach)
+* [expectForm](#Lilac_expectForm)
+* [expectRef](#Lilac_expectRef)
+* [expectInt](#Lilac_expectInt)
+* [expectFloat](#Lilac_expectFloat)
+* [expectBool](#Lilac_expectBool)
+* [expectString](#Lilac_expectString)
+
+### Member Functions
+#### <a name="Lilac_describe"></a>describe
+
+Defines and executes a test suite.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function describe(string asTestSuiteName, bool abTestCases)
+
+**Parameters**
+
+-   asTestSuiteName: The name of the test suite.
+
+-   abTestCases: A function that implements this suite's test cases.
+
+**Examples**
+
+    describe("A test suite", myTestSuite())
+
+***
+#### <a name="Lilac_it"></a>it
+
+Defines and executes a test case (spec).
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function it(string asTestCaseName, bool abTestSteps)
+
+**Parameters**
+
+-   asTestCaseName: The name of the test case.
+
+-   abTestSteps: A function that implements this suite's test steps.
+
+**Examples**
+
+    it("should do something", myTestCase())
+
+***
+#### <a name="Lilac_beforeAll"></a>beforeAll
+
+Override this function to run a block of code before any test case runs (including before any [beforeEach](#robo5)).
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function beforeAll()
+
+**Parameters**
+
+None
+
+**Examples**
+
+    ;Make sure the quest isn't running and is on stage 12 before every test.
+    function beforeAll()
+            TheQuest.Stop()
+            TheQuest.SetStage(12)
+    endFunction
+
+***
+#### <a name="Lilac_afterAll"></a>afterAll
+
+Override this function to run a block of code after all test cases run (including after any [afterEach](#robo6)).
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function afterAll()
+
+**Parameters**
+
+None
+
+**Examples**
+
+    ;Make sure the quest isn't running and is on stage 12 after every test.
+    function afterAll()
+            TheQuest.Stop()
+            TheQuest.SetStage(12)
+    endFunction
+
+***
+#### <a name="Lilac_beforeEach"></a>beforeEach
+
+Override this function to run a block of code before each test case.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function beforeEach()
+
+**Parameters**
+
+None
+
+**Examples**
+
+    ;Make sure the storm trooper is reset before every test.
+    function beforeEach()
+            stormtrooper.Reset()
+    endFunction
+
+***
+#### <a name="Lilac_afterEach"></a>afterEach
+
+Override this function to run a block of code after each test case.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function afterEach()
+
+**Parameters**
+
+None
+
+**Examples**
+
+    ;Make sure the star destroyer is deleted after every test.
+    function afterEach()
+            destroyer.Disable()
+            destroyer.Delete()
+    endFunction
+
+***
+#### <a name="Lilac_expectForm"></a>expectForm
+
+Defines a new expectation, comparing actual and expected Forms.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectForm(Form akActual, bool abCondition, int aiMatcher, Form akExpected = None)
+
+**Parameters**
+
+-   akActual: The form under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectForm(MyArmor, to, beEqualTo, PowerArmor)
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+-   beNone
+
+***
+#### <a name="Lilac_expectRef"></a>expectRef
+
+Defines a new expectation, comparing actual and expected ObjectReferences.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectRef(ObjectReference akActual, bool abCondition, int aiMatcher, ObjectReference akExpected = None)
+
+**Parameters**
+
+-   akActual: The reference under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectRef(FalmerRef, to, beEqualTo, BossFalmerRef)
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+-   beNone
+
+***
+#### <a name="Lilac_expectInt"></a>expectInt
+
+Defines a new expectation, comparing actual and expected integers.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectInt(int aiActual, bool abCondition, int aiMatcher, int aiExpected = -1)
+
+**Parameters**
+
+-   akActual: The integer under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectInt(counter, to, beLessThan, 40)
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beLessThan
+
+-   beGreaterThan
+
+-   beLessThanOrEqualTo
+
+-   beGreaterThanOrEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+***
+#### <a name="Lilac_expectFloat"></a>expectFloat
+
+Defines a new expectation, comparing actual and expected floats.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectFloat(float afActual, bool abCondition, int aiMatcher, float afExpected = -1.0)
+
+**Parameters**
+
+-   akActual: The float under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectFloat(GameHour.GetValue(), to, beGreaterThan, 19.0)
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beLessThan
+
+-   beGreaterThan
+
+-   beLessThanOrEqualTo
+
+-   beGreaterThanOrEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+***
+#### <a name="Lilac_expectBool"></a>expectBool
+
+Defines a new expectation, comparing actual and expected booleans.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectBool(bool abActual, bool abCondition, int aiMatcher, bool abExpected = false)
+
+**Parameters**
+
+-   akActual: The boolean under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectBool(Follower.IsEssential(), to, beTruthy)
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+***
+#### <a name="Lilac_expectString"></a>expectString
+
+Defines a new expectation, comparing actual and expected string.
+
+**Api version added**
+
+1
+
+**Syntax**
+
+    function expectString(string asActual, bool abCondition, int aiMatcher, string asExpected = "")
+
+**Parameters**
+
+-   akActual: The string under test.
+
+-   abCondition: The condition (to or notTo).
+
+-   aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
+
+-   akExpected: The expected value.
+
+**Examples**
+
+    expectString("its a small world after all", to, contain, "world")
+
+**Notes**
+
+Valid matchers for this expectation:
+
+-   beEqualTo
+
+-   beTruthy
+
+-   beFalsy
+
+-   contain
+
+
+

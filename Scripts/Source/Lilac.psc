@@ -303,7 +303,7 @@ endFunction
 ;*********/;
 endFunction
 
-;/********f* Lilac/beforeAll
+;/********f* Lilac/afterAll
 * API VERSION ADDED
 * 1
 *
@@ -714,14 +714,14 @@ endFunction
 * 1
 *
 * DESCRIPTION
-* Defines a new expectation, comparing actual and expected booleans.
+* Defines a new expectation, comparing actual and expected string.
 *
 * SYNTAX
 */;
 function expectString(string asActual, bool abCondition, int aiMatcher, string asExpected = "")
 ;/*
 * PARAMETERS
-* * akActual: The boolean under test.
+* * akActual: The string under test.
 * * abCondition: The condition (to or notTo).
 * * aiMatcher: The matcher. See Notes for a list of valid matchers for this expectation.
 * * akExpected: The expected value.
