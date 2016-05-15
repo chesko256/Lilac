@@ -1,0 +1,6 @@
+*.zip
+Scripts/*
+Scripts/Source/*
+Scripts/Source/doc/*
+*.sublime-project
+*.sublime-workspace
