@@ -14,6 +14,8 @@
       <h1 class="project-name">Lilac</h1>
       <h2 class="project-tagline">A Papyrus unit test framework for Skyrim.</h2>
       <a href="https://github.com/chesko256/Lilac" class="btn">View on GitHub</a>
+      <a href="https://github.com/chesko256/Lilac/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/chesko256/Lilac/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
@@ -31,7 +33,9 @@
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
-<p>Download and install the latest release using a Mod Manager. Then, create a new script that extends Lilac and attach it to a quest:</p>
+<p>All of Lilac is contained in a single script file, <strong>Lilac.psc</strong>. There is no complex set-up or installation.</p>
+
+<p>Download and install the latest release using a Mod Manager, or just drop Lilac.psc into your <code>Scripts/Source</code> directory. Then, create a new script that extends Lilac and away you go:</p>
 
 <pre><code>scriptname MyTests extends Lilac
 </code></pre>
@@ -46,13 +50,10 @@
 endFunction
 
 function MonsterSpawnerTest()
-    expectBool(MonsterSpawner.Ready, to, beTruthy)
-
-    MonsterSpawner.SpawnMonsters()
-
-    expectInt(MonsterSpawner.SpawnedMonsterCount, to, beEqualTo, 20)
-    expectRef(MonsterSpawner.LastSpawnedMonster, notTo, beNone)
-    expectForm(MonsterSpawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon)
+    spawner.SpawnMonsters()
+    expectInt(spawner.SpawnedMonsterCount, to, beEqualTo, 20)
+    expectRef(spawner.LastSpawnedMonster, notTo, beNone)
+    expectForm(spawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon)
 endFunction
 </code></pre>
 
