@@ -9,8 +9,9 @@ scriptname Lilac extends Quest
 * from the console.}
 ;*********/;
 
-string SystemName = "Lilac"
-string SystemVersion = "1.0"
+string property SystemName = "Lilac" autoReadOnly
+float property SystemVersion = 1.0 autoReadOnly
+int property APIVersion = 1 autoReadOnly
 
 ; Unit Test Runner ================================================================================
 
@@ -41,7 +42,7 @@ Event OnUpdate()
 EndEvent
 
 function RunTests()
-	debug.trace(createLilacDebugMessage(INFO, "Starting " + SystemName + " " + SystemVersion + " on " + self))
+	debug.trace(createLilacDebugMessage(INFO, "Starting " + SystemName + " " + SystemVersion + " (API v" + APIVersion + ") on " + self))
 	
 	; Initial setup
 	ResetTestRunner()
@@ -87,16 +88,6 @@ function ResetTestRunner()
 endFunction
 
 function ShowTestFailureLog()
-
-	;/
-	debug.trace("failedTestSuites: " + failedTestSuites)
-	debug.trace("failedTestCases: " + failedTestCases)
-	debug.trace("failedConditions: " + failedConditions)
-	debug.trace("failedMatchers: " + failedMatchers)
-	debug.trace("failedActuals: " + failedActuals)
-	debug.trace("failedExpecteds: " + failedExpecteds)
-	/;
-
 	int working_index = 0
 	bool failed_tests_msg_shown = false
 	

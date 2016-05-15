@@ -5,11 +5,15 @@ Lilac is a unit testing framework for Papyrus. It has a simple and direct syntax
 
 It is inspired by [Jasmine](http://jasmine.github.io) for Javascript. It is currently available for **Skyrim**, with **Fallout 4** support coming soon.
 
-Lilac can be embedded into your mod and distributed with it.
+Lilac can be built into your mod and distributed with it. Your tests will only run when you decide to run them; your users will most likely never know they exist.
 
 ### Documentation
 
 Documentation can be found on the Lilac GitHub Wiki: https://github.com/chesko256/Lilac/wiki
+
+### Requirements
+
+Lilac requires SKSE 1.7.3+ to compile and execute tests. This does **not** mean that your mod requirements will change; Lilac tests are for you, the mod developer. If your mod didn't require SKSE before, Lilac won't change that.
 
 ### Installation
 All of Lilac is contained in a single script file, **Lilac.psc**. There is no complex set-up or installation.
