@@ -38,9 +38,11 @@ Lilac allows you to write tests in a clear and expressive syntax.
     endFunction
 
 ### Running Tests
-Just run a console command to start the quest that you attached your test script to, and Lilac takes care of the rest. The results will be output to your Papyrus log:
+Lilac test scripts are attached to quests. To run your tests, just start the quest:
     
     startquest MyTestQuest
+
+The results will be printed to your Papyrus log.
 
 ### License
 Lilac is released under the [MIT License](https://github.com/chesko256/Lilac/blob/master/MIT.LICENSE).
