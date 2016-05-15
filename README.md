@@ -13,7 +13,7 @@ Documentation can be found on the Lilac GitHub Wiki: https://github.com/chesko25
 
 ### Requirements
 
-Lilac requires SKSE 1.7.3+ to compile and execute tests. This does **not** mean that your mod requirements will change; Lilac tests are for you, the mod developer. If your mod didn't require SKSE before, Lilac won't change that.
+Lilac requires SKSE 1.7.3+ to compile and execute tests. This does not mean that your mod requirements will change; Lilac tests are for you, the mod developer. If your mod didn't require SKSE before, Lilac won't change that.
 
 ### Installation
 All of Lilac is contained in a single script file, **Lilac.psc**. There is no complex set-up or installation.
