@@ -45,14 +45,19 @@
 <p>Lilac allows you to write tests in a simple, expressive syntax.</p>
 
 <pre><code>function MonsterSpawnerSuite()
-    it("should spawn monsters", MonsterSpawnerTest())
+
+    it( "should spawn monsters", MonsterSpawnerTest() )
+
 endFunction
 
 function MonsterSpawnerTest()
+
     spawner.SpawnMonsters()
-    expectInt(spawner.SpawnedMonsterCount, to, beEqualTo, 20)
-    expectRef(spawner.LastSpawnedMonster, notTo, beNone)
-    expectForm(spawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon)
+
+    expectInt( spawner.SpawnedMonsterCount, to, beEqualTo, 20 )
+    expectRef( spawner.LastSpawnedMonster, notTo, beNone )
+    expectForm( spawner.LastSpawnedMonsterType, to, beEqualTo, MegaDragon )
+
 endFunction
 </code></pre>
 
@@ -67,7 +72,7 @@ endFunction
 <h3>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
 
-<p>Lilac is licensed under the MIT License.</p>
+<p>Lilac is licensed under the <a href="https://github.com/chesko256/Lilac/blob/master/MIT.LICENSE">MIT License</a>.</p>
 
 <h3>
 <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h3>
