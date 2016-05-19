@@ -10,8 +10,8 @@ scriptname Lilac extends Quest
 ;*********/;
 
 string property SystemName = "Lilac" autoReadOnly
-float property SystemVersion = 1.0 autoReadOnly
-int property APIVersion = 1 autoReadOnly
+float property SystemVersion = 1.1 autoReadOnly
+int property APIVersion = 2 autoReadOnly
 
 ; Unit Test Runner ================================================================================
 
@@ -19,17 +19,20 @@ float last_current_time = -1.0
 string current_test_suite = ""
 string current_test_case = ""
 bool test_case_had_failures = false
+bool verbose_logging = false
+bool warn_on_long_duration = false
+float warning_threshold = 0.0
 
 int testsRun = 0
 int testsPassed = 0
 int testsFailed = 0
 
-string[] property failedTestSuites auto
-string[] property failedTestCases auto
-string[] property failedActuals auto
-bool[] property failedConditions auto
-int[] property failedMatchers auto
-string[] property failedExpecteds auto
+string[] property failedTestSuites auto hidden
+string[] property failedTestCases auto hidden
+string[] property failedActuals auto hidden
+bool[] property failedConditions auto hidden
+int[] property failedMatchers auto hidden
+string[] property failedExpecteds auto hidden
 
 Event OnInit()
 	if self.IsRunning()
@@ -46,6 +49,7 @@ function RunTests()
 	
 	; Initial setup
 	ResetTestRunner()
+	SetUp()
 	SetStartTime()
 	beforeAll()
 	beforeEach()
@@ -63,12 +67,102 @@ function RunTests()
 	self.Stop()
 endFunction
 
-; Extend
+;/********f* Lilac/SetUp
+* API VERSION ADDED
+* 2
+* 
+* DESCRIPTION
+* Override this function to run test set-up functions.
+*
+* SYNTAX
+*/;
+function SetUp()
+;/*
+* PARAMETERS
+* None
+*
+* NOTES
+* The most common use for declaring this function is to enable verbose logging (`EnableVerboseLogging()`) or to
+* warn on slow tests (`EnableWarningOnSlowTests()`)
+* 
+* EXAMPLES
+function SetUp()
+	EnableVerboseLogging()
+endFunction
+;*********/;
+endFunction
+
+;/********f* Lilac/TestSuites
+* API VERSION ADDED
+* 1
+* 
+* DESCRIPTION
+* Override this function to declare all test suites to run in this Lilac test script. Any test suites declared
+* in this function will be automatically run when the quest this script is attached to runs.
+*
+* SYNTAX
+*/;
 function TestSuites()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+function TestSuites()
+	describe("A test suite", myTestSuite())
+	describe("Another test suite", myOtherTestSuite())
+endFunction
+;*********/;
 endFunction
 
 function SetStartTime()
 	last_current_time = Game.GetRealHoursPassed()
+endFunction
+
+;/********f* Lilac/EnableVerboseLogging
+* API VERSION ADDED
+* 2
+* 
+* DESCRIPTION
+* Call this function to enable verbose logging in the Papyrus log.
+*
+* SYNTAX
+*/;
+function EnableVerboseLogging()
+;/*
+* PARAMETERS
+* None
+* 
+* EXAMPLES
+function SetUp()
+	EnableVerboseLogging()
+endFunction
+;*********/;
+	verbose_logging = true
+endFunction
+
+;/********f* Lilac/EnableWarningOnSlowTests
+* API VERSION ADDED
+* 2
+* 
+* DESCRIPTION
+* Call this function to enable warning generation on slow test cases.
+*
+* SYNTAX
+*/;
+function EnableWarningOnSlowTests(float afWarningThreshold)
+;/*
+* PARAMETERS
+* * afWarningThreshold: If a spec takes longer than this to execute, generate a warning in the Papyrus log.
+* 
+* EXAMPLES
+function SetUp()
+	; Generate warnings if a spec takes longer than 1 sec.
+	EnableWarningOnSlowTests(1.0)
+endFunction
+;*********/;
+	warn_on_long_duration = true
+	warning_threshold = afWarningThreshold
 endFunction
 
 function ResetTestRunner()
@@ -85,6 +179,9 @@ function ResetTestRunner()
 	last_current_time = -1.0
 	current_test_suite = ""
 	current_test_case = ""
+	verbose_logging = false
+	warn_on_long_duration = false
+	warning_threshold = 0.0
 endFunction
 
 function ShowTestFailureLog()
@@ -179,6 +276,60 @@ string function CreateStepFailureMessage(int index)
 	return msg
 endFunction
 
+string function CreateVerboseStepMessage(bool abResult, string asActual, bool abCondition, int aiMatcher, string asExpected)
+	string header = " - expected"
+
+	bool cdtn_val = abCondition
+	int matcher_val = aiMatcher
+	string actual_val = asActual
+	string expected_val = asExpected
+
+	string result
+	if abResult == true
+		result = "PASSED"
+	else
+		result = "FAILED"
+	endif
+
+	string cdtn
+	if cdtn_val == true
+		cdtn = "to"
+	else
+		cdtn = "not to"
+	endif
+	
+	string matcher
+	if matcher_val == beEqualTo
+		matcher = "be equal to"
+	elseif matcher_val == beLessThan
+		matcher = "be less than"
+	elseif matcher_val == beLessThanOrEqualTo
+		matcher = "be less than or equal to"
+	elseif matcher_val == beGreaterThan
+		matcher = "be greater than"
+	elseif matcher_val == beGreaterThanOrEqualTo
+		matcher = "be greater than or equal to"
+	elseif matcher_val == beTruthy
+		matcher = "be truthy"
+	elseif matcher_val == beFalsy
+		matcher = "be falsy"
+	elseif matcher_val == contain
+		matcher = "contain"
+	elseif matcher_val == beNone
+		matcher = "be None"
+	endif
+
+	string msg
+
+	if matcher_val == beTruthy || matcher_val == beFalsy || matcher_val == beNone
+		msg = header + " " + actual_val + " " + cdtn + " " + matcher + " " + result
+	else
+		msg = header + " " + actual_val + " " + cdtn + " " + matcher + " " + expected_val + " " + result
+	endif
+
+	return msg
+endFunction
+
 
 ; Unit Test Composition ===========================================================================
 
@@ -259,9 +410,17 @@ it("should do something", myTestCase())
 	endif
 
 	if testsFailed > 0
-		debug.trace(createLilacDebugMessage(INFO, "Executed " + testsRun + " (" + testsFailed + " FAILED)" + resultString + " (" + deltaTimeSecs + " secs)"))
+		if warn_on_long_duration && deltaTimeSecs > warning_threshold
+			debug.trace(createLilacDebugMessage(WARN, "Executed " + testsRun + " (" + testsFailed + " FAILED)" + resultString + " (slow: " + deltaTimeSecs + " secs)"))
+		else
+			debug.trace(createLilacDebugMessage(INFO, "Executed " + testsRun + " (" + testsFailed + " FAILED)" + resultString + " (" + deltaTimeSecs + " secs)"))
+		endif
 	else
-		debug.trace(createLilacDebugMessage(INFO, "Executed " + testsRun + resultString + " (" + deltaTimeSecs + " secs)"))
+		if warn_on_long_duration && deltaTimeSecs > warning_threshold
+			debug.trace(createLilacDebugMessage(WARN, "Executed " + testsRun + resultString + " (slow: " + deltaTimeSecs + " secs)"))
+		else
+			debug.trace(createLilacDebugMessage(INFO, "Executed " + testsRun + resultString + " (" + deltaTimeSecs + " secs)"))
+		endif
 	endif
 	last_current_time = this_current_time
 	test_case_had_failures = false
@@ -766,6 +925,9 @@ function RaiseResult(bool abResult, string asActual, bool abCondition, int aiMat
 			failedMatchers[idx] = aiMatcher
 			failedExpecteds[idx] = asExpected
 		endif
+	endif
+	if verbose_logging
+		debug.trace(createLilacDebugMessage(INFO, CreateVerboseStepMessage(abResult, asActual, abCondition, aiMatcher, asExpected)))
 	endif
 endFunction
 
