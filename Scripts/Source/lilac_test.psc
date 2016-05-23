@@ -101,6 +101,7 @@ function case_matcher_beEqualTo()
 
 	expectString("test string", to, beEqualTo, "test string")
 	expectString("test string", notTo, beEqualTo, "other string")
+	expectString("", to, beEqualTo, "")
 
 	expectForm(ArmorIronCuirass, to, beEqualTo, ArmorIronCuirass)
 	expectForm(ArmorIronCuirass, notTo, beEqualTo, None)
