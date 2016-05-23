@@ -237,6 +237,8 @@ string function CreateStepFailureMessage(int index)
 	string actual_val = failedActuals[index]
 	string expected_val = failedExpecteds[index]
 
+	;debug.trace("Creating step failure message from index " + index + " " + cdtn_val  + " " + matcher_val + " " + actual_val + " " + expected_val)
+
 	string cdtn
 	if failedConditions[index] == true
 		cdtn = "to"
@@ -919,11 +921,20 @@ endFunction
 function RaiseResult(bool abResult, string asActual, bool abCondition, int aiMatcher, string asExpected)
 	if abResult == false
 		test_case_had_failures = true
-		int idx = ArrayAddString(failedActuals, asActual as string)
+		int idx
+		if asActual != ""
+			idx = ArrayAddString(failedActuals, asActual as string)
+		else
+			idx = ArrayAddString(failedActuals, "(empty string)")
+		endif
 		if idx != -1
 			failedConditions[idx] = abCondition
 			failedMatchers[idx] = aiMatcher
-			failedExpecteds[idx] = asExpected
+			if asExpected != ""
+				failedExpecteds[idx] = asExpected
+			else
+				failedExpecteds[idx] = "(empty string)"
+			endif
 		endif
 	endif
 	if verbose_logging
