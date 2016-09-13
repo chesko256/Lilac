@@ -1,4 +1,4 @@
-![Lilac](http://i.imgur.com/m3MIMw5.png "Lilac")
+![Lilac](http://i.imgur.com/YzpYlCG.png "Lilac")
 ### A Papyrus Testing Framework
 
 Lilac is a unit testing framework for Papyrus. It has a simple and direct syntax so that you can easily write tests to increase the quality of your mods.
