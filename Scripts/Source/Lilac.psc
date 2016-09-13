@@ -10,8 +10,10 @@ scriptname Lilac extends Quest
 ;*********/;
 
 string property SystemName = "Lilac" autoReadOnly
-float property SystemVersion = 1.1 autoReadOnly
+float property SystemVersion = 1.2 autoReadOnly
 int property APIVersion = 2 autoReadOnly
+bool property enabled = true auto
+{ Default: True. If false, this test cannot be run at runtime. Can help prevent unwanted execution. }
 
 ; Unit Test Runner ================================================================================
 
@@ -33,11 +35,19 @@ string[] property failedActuals auto hidden
 bool[] property failedConditions auto hidden
 int[] property failedMatchers auto hidden
 string[] property failedExpecteds auto hidden
+int[] property failedExpectNumbers auto hidden
+int property expectCount = 0 auto hidden
 
 Event OnInit()
 	if self.IsRunning()
-		RegisterForSingleUpdate(1)
-	endif	
+		if enabled
+			RegisterForSingleUpdate(1)
+		else
+			debug.trace(createLilacDebugMessage(INFO, "The Lilac test on " + self + " was disabled."))
+			debug.trace(createLilacDebugMessage(INFO, "Set the 'enabled' property of the test script to True in order to run it."))
+			debug.trace(createLilacDebugMessage(INFO, "If you are a mod user and see this message, please ignore it; this message is for mod developers and is not indicative of a bug."))
+		endif
+	endif
 EndEvent
 
 Event OnUpdate()
@@ -172,10 +182,12 @@ function ResetTestRunner()
 	failedConditions = new bool[128]
 	failedMatchers = new int[128]
 	failedExpecteds = new string[128]
+	failedExpectNumbers = new int[128]
 
 	testsRun = 0
 	testsPassed = 0
 	testsFailed = 0
+	expectCount = 0
 	last_current_time = -1.0
 	current_test_suite = ""
 	current_test_case = ""
@@ -230,12 +242,13 @@ function ShowTestSummary()
 endFunction
 
 string function CreateStepFailureMessage(int index)
-	string header = "        - expected"
-
 	bool cdtn_val = failedConditions[index]
 	int matcher_val = failedMatchers[index]
 	string actual_val = failedActuals[index]
 	string expected_val = failedExpecteds[index]
+	int expectnumber_val = failedExpectNumbers[index]
+	
+	string header = "        - Expect " + expectnumber_val + ": expected"
 
 	;debug.trace("Creating step failure message from index " + index + " " + cdtn_val  + " " + matcher_val + " " + actual_val + " " + expected_val)
 
@@ -278,13 +291,14 @@ string function CreateStepFailureMessage(int index)
 	return msg
 endFunction
 
-string function CreateVerboseStepMessage(bool abResult, string asActual, bool abCondition, int aiMatcher, string asExpected)
-	string header = " - expected"
-
+string function CreateVerboseStepMessage(bool abResult, string asActual, bool abCondition, int aiMatcher, string asExpected, int aiNumber)
 	bool cdtn_val = abCondition
 	int matcher_val = aiMatcher
 	string actual_val = asActual
 	string expected_val = asExpected
+	int expectnumber_val = aiNumber
+
+	string header = " - Expect " + expectnumber_val + ": expected"
 
 	string result
 	if abResult == true
@@ -426,6 +440,7 @@ it("should do something", myTestCase())
 	endif
 	last_current_time = this_current_time
 	test_case_had_failures = false
+	expectCount = 0
 
 	; Tear down this test and set up the next one.
 	afterEach()
@@ -919,6 +934,7 @@ expectString("its a small world after all", to, contain, "world")
 endFunction
 
 function RaiseResult(bool abResult, string asActual, bool abCondition, int aiMatcher, string asExpected)
+	expectCount += 1
 	if abResult == false
 		test_case_had_failures = true
 		int idx
@@ -930,6 +946,7 @@ function RaiseResult(bool abResult, string asActual, bool abCondition, int aiMat
 		if idx != -1
 			failedConditions[idx] = abCondition
 			failedMatchers[idx] = aiMatcher
+			failedExpectNumbers[idx] = expectCount
 			if asExpected != ""
 				failedExpecteds[idx] = asExpected
 			else
@@ -938,7 +955,7 @@ function RaiseResult(bool abResult, string asActual, bool abCondition, int aiMat
 		endif
 	endif
 	if verbose_logging
-		debug.trace(createLilacDebugMessage(INFO, CreateVerboseStepMessage(abResult, asActual, abCondition, aiMatcher, asExpected)))
+		debug.trace(createLilacDebugMessage(INFO, CreateVerboseStepMessage(abResult, asActual, abCondition, aiMatcher, asExpected, expectCount)))
 	endif
 endFunction
 

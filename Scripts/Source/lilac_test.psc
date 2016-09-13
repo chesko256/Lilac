@@ -306,9 +306,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beEqualTo
 	mockLilacTest.failedExpecteds[i] = "76"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 5 to be equal to 76")
+		         "        - Expect 1: expected 5 to be equal to 76")
 
 	i += 1
 
@@ -316,9 +317,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beEqualTo
 	mockLilacTest.failedExpecteds[i] = "5"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 5 not to be equal to 5")
+		         "        - Expect 2: expected 5 not to be equal to 5")
 
 	i += 1
 
@@ -326,9 +328,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beLessThan
 	mockLilacTest.failedExpecteds[i] = "12"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 98 to be less than 12")
+		         "        - Expect 3: expected 98 to be less than 12")
 
 	i += 1
 
@@ -336,9 +339,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beLessThan
 	mockLilacTest.failedExpecteds[i] = "35.97"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 12.65 not to be less than 35.97")
+		         "        - Expect 4: expected 12.65 not to be less than 35.97")
 
 	i += 1
 
@@ -346,9 +350,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beLessThanOrEqualTo
 	mockLilacTest.failedExpecteds[i] = "12"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 98 to be less than or equal to 12")
+		         "        - Expect 5: expected 98 to be less than or equal to 12")
 
 	i += 1
 
@@ -356,9 +361,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beLessThanOrEqualTo
 	mockLilacTest.failedExpecteds[i] = "12.65"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 12.65 not to be less than or equal to 12.65")
+		         "        - Expect 6: expected 12.65 not to be less than or equal to 12.65")
 
 	i += 1
 
@@ -366,9 +372,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beGreaterThan
 	mockLilacTest.failedExpecteds[i] = "98.2"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 12.8 to be greater than 98.2")
+		         "        - Expect 7: expected 12.8 to be greater than 98.2")
 
 	i += 1
 
@@ -376,9 +383,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beGreaterThan
 	mockLilacTest.failedExpecteds[i] = "10.333333"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 12.65 not to be greater than 10.333333")
+		         "        - Expect 8: expected 12.65 not to be greater than 10.333333")
 
 	i += 1
 
@@ -386,9 +394,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beGreaterThanOrEqualTo
 	mockLilacTest.failedExpecteds[i] = "10356"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 16 to be greater than or equal to 10356")
+		         "        - Expect 9: expected 16 to be greater than or equal to 10356")
 
 	i += 1
 
@@ -396,9 +405,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beGreaterThanOrEqualTo
 	mockLilacTest.failedExpecteds[i] = "10.333333"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected 10.333333 not to be greater than or equal to 10.333333")
+		         "        - Expect 10: expected 10.333333 not to be greater than or equal to 10.333333")
 
 	i += 1
 
@@ -406,9 +416,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beTruthy
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected false to be truthy")
+		         "        - Expect 11: expected false to be truthy")
 
 	i += 1
 
@@ -416,9 +427,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beTruthy
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected true not to be truthy")
+		         "        - Expect 12: expected true not to be truthy")
 
 	i += 1
 
@@ -426,9 +438,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beFalsy
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected true to be falsy")
+		         "        - Expect 13: expected true to be falsy")
 
 	i += 1
 
@@ -436,9 +449,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beFalsy
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected false not to be falsy")
+		         "        - Expect 14: expected false not to be falsy")
 
 	i += 1
 
@@ -446,9 +460,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = contain
 	mockLilacTest.failedExpecteds[i] = "Bar"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected Foo to contain Bar")
+		         "        - Expect 15: expected Foo to contain Bar")
 
 	i += 1
 
@@ -456,9 +471,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = contain
 	mockLilacTest.failedExpecteds[i] = "Foo"
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected Foo not to contain Foo")
+		         "        - Expect 16: expected Foo not to contain Foo")
 
 	i += 1
 
@@ -466,9 +482,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beNone
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected WeaponObject to be None")
+		         "        - Expect 17: expected WeaponObject to be None")
 
 	i += 1
 
@@ -476,9 +493,10 @@ function case_message_stepfailure()
 	mockLilacTest.failedConditions[i] = notTo
 	mockLilacTest.failedMatchers[i] = beNone
 	mockLilacTest.failedExpecteds[i] = ""
+	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - expected None not to be None")
+		         "        - Expect 18: expected None not to be None")
 
 endFunction
 

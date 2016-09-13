@@ -48,6 +48,12 @@ Lilac test scripts are attached to quests. To run your tests, just start the que
 
 The results will be printed to your Papyrus log.
 
+### Version History
+
+v1.2: Added spec expectation number to test runner output in order to assist debugging. Added 'enabled' flag in order to help prevent unwanted accidental execution by users at runtime.
+v1.1: Fixed bugs related to reports being wrong when the Actual was a blank string.
+v1.0: Initial Release
+
 ### License
 Lilac is released under the [MIT License](https://github.com/chesko256/Lilac/blob/master/MIT.LICENSE).
 
