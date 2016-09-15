@@ -274,8 +274,6 @@ string function CreateStepFailureMessage(int index)
 		matcher = "be truthy"
 	elseif matcher_val == beFalsy
 		matcher = "be falsy"
-	elseif matcher_val == contain
-		matcher = "contain"
 	elseif matcher_val == beNone
 		matcher = "be None"
 	endif
@@ -329,8 +327,6 @@ string function CreateVerboseStepMessage(bool abResult, string asActual, bool ab
 		matcher = "be truthy"
 	elseif matcher_val == beFalsy
 		matcher = "be falsy"
-	elseif matcher_val == contain
-		matcher = "contain"
 	elseif matcher_val == beNone
 		matcher = "be None"
 	endif
@@ -361,8 +357,7 @@ int property beGreaterThan 			= 3		autoReadOnly
 int property beGreaterThanOrEqualTo	= 4		autoReadOnly
 int property beTruthy 				= 5		autoReadOnly
 int property beFalsy 				= 6		autoReadOnly
-int property contain 				= 7		autoReadOnly
-int property beNone					= 8		autoReadOnly
+int property beNone					= 7		autoReadOnly
 
 ; Log level enum
 int property INFO 					= 0 	autoReadOnly
@@ -894,13 +889,12 @@ function expectString(string asActual, bool abCondition, int aiMatcher, string a
 * * akExpected: The expected value.
 * 
 * EXAMPLES
-expectString("its a small world after all", to, contain, "world")
+expectString("Preston", to, beEqualTo, "Preston")
 * NOTES
 * Valid matchers for this expectation:
 * * beEqualTo
 * * beTruthy
 * * beFalsy
-* * contain
 ;*********/;
 	bool result
 	if abCondition == to
@@ -910,8 +904,6 @@ expectString("its a small world after all", to, contain, "world")
 			result = (asActual as bool) == true
 		elseif aiMatcher == beFalsy
 			result = (asActual as bool) == false
-		elseif aiMatcher == contain
-			result = StringUtil.Find(asActual, asExpected) != -1
 		else
 			RaiseException_InvalidMatcher(aiMatcher)
 			result = false
@@ -923,8 +915,6 @@ expectString("its a small world after all", to, contain, "world")
 			result = (asActual as bool) != true
 		elseif aiMatcher == beFalsy
 			result = (asActual as bool) != false
-		elseif aiMatcher == contain
-			result = StringUtil.Find(asActual, asExpected) == -1
 		else
 			RaiseException_InvalidMatcher(aiMatcher)
 			result = false
@@ -976,8 +966,6 @@ function RaiseException_InvalidMatcher(int aiMatcher)
 	elseif aiMatcher == 6
 		matcher = "beFalsy"
 	elseif aiMatcher == 7
-		matcher = "contain"
-	elseif aiMatcher == 8
 		matcher = "beNone"
 	endif
 

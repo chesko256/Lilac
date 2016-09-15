@@ -391,7 +391,7 @@ Defines a new expectation, comparing actual and expected string.
 
 **Examples**
 
-    expectString("its a small world after all", to, contain, "world")
+    expectString("Preston", to, beEqualTo, "Preston")
 
 **Notes**
 
@@ -402,8 +402,6 @@ Valid matchers for this expectation:
 -   beTruthy
 
 -   beFalsy
-
--   contain
 
 
 

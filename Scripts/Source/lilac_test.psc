@@ -24,7 +24,6 @@ function MatcherTestCases()
 	it("'beGreaterThanOrEqualTo' should evaluate greater than or equal to", case_matcher_beGreaterThanOrEqualTo())
 	it("'beTruthy' should evaluate truthiness", case_matcher_beTruthy())
 	it("'beFalsy' should evaluate falsiness", case_matcher_beFalsy())
-	it("'contain' should evaluate substring", case_matcher_contain())
 	it("'beNone' should evaluate None", case_matcher_beNone())
 endFunction
 
@@ -279,17 +278,6 @@ function case_matcher_beFalsy()
 	expectString("", to, beFalsy)
 endFunction
 
-function case_matcher_contain()
-	expectString("test string", to, contain, "test")
-	expectString("skyrim", to, contain, "rim")
-	expectString("The Elder Scrolls", to, contain, "r s")
-	expectString("The Elder Scrolls", to, contain, " ")
-	expectString("The 418th Step", to, contain, "418")
-	expectString("foo", notTo, contain, "bar")
-	expectString("Riverwood", notTo, contain, "Solitude")
-	expectString("5", notTo, contain, "6")
-endFunction
-
 function case_matcher_beNone()
 	expectForm(EmptyForm, to, beNone)
 	expectForm(ArmorIronCuirass, notTo, beNone)
@@ -456,28 +444,6 @@ function case_message_stepfailure()
 
 	i += 1
 
-	mockLilacTest.failedActuals[i] = "Foo"
-	mockLilacTest.failedConditions[i] = to
-	mockLilacTest.failedMatchers[i] = contain
-	mockLilacTest.failedExpecteds[i] = "Bar"
-	mockLilacTest.failedExpectNumbers[i] = i + 1
-
-	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - Expect 15: expected Foo to contain Bar")
-
-	i += 1
-
-	mockLilacTest.failedActuals[i] = "Foo"
-	mockLilacTest.failedConditions[i] = notTo
-	mockLilacTest.failedMatchers[i] = contain
-	mockLilacTest.failedExpecteds[i] = "Foo"
-	mockLilacTest.failedExpectNumbers[i] = i + 1
-
-	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - Expect 16: expected Foo not to contain Foo")
-
-	i += 1
-
 	mockLilacTest.failedActuals[i] = "WeaponObject"
 	mockLilacTest.failedConditions[i] = to
 	mockLilacTest.failedMatchers[i] = beNone
@@ -485,7 +451,7 @@ function case_message_stepfailure()
 	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - Expect 17: expected WeaponObject to be None")
+		         "        - Expect 15: expected WeaponObject to be None")
 
 	i += 1
 
@@ -496,7 +462,7 @@ function case_message_stepfailure()
 	mockLilacTest.failedExpectNumbers[i] = i + 1
 
 	expectString( mockLilacTest.CreateStepFailureMessage(i), to, beEqualTo, \
-		         "        - Expect 18: expected None not to be None")
+		         "        - Expect 16: expected None not to be None")
 
 endFunction
 
@@ -534,14 +500,6 @@ function case_message_invalidmatcher()
 	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
 	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
 		         "[Lilac] ERROR - Invalid matcher 'beLessThanOrEqualTo' used.")
-
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectForm(ArmorIronCuirass, to, contain, ArmorIronCuirass)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
 
 	mockLilacTest.mockLastRaisedResultResult = true
 	mockLilacTest.mockLastLilacDebugMessage = ""
@@ -586,24 +544,7 @@ function case_message_invalidmatcher()
 	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
 		         "[Lilac] ERROR - Invalid matcher 'beLessThanOrEqualTo' used.")
 
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectRef(TestArmorRef, to, contain, TestArmorRef)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
-
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectRef(TestArmorRef, notTo, contain, TestArmorRef)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
-
-
-
+	
 	; expectInt
 	mockLilacTest.mockLastRaisedResultResult = true
 	mockLilacTest.mockLastLilacDebugMessage = ""
@@ -612,14 +553,6 @@ function case_message_invalidmatcher()
 	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
 	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
 		         "[Lilac] ERROR - Invalid matcher 'beNone' used.")
-
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectInt(5, to, contain, 5)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
 
 	mockLilacTest.mockLastRaisedResultResult = true
 	mockLilacTest.mockLastLilacDebugMessage = ""
@@ -639,23 +572,7 @@ function case_message_invalidmatcher()
 	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
 		         "[Lilac] ERROR - Invalid matcher 'beNone' used.")
 
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectFloat(3.4565, to, contain, 3.4565)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
-
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectFloat(3.4565, notTo, contain, 3.4)
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
-
-
+	
 	; expectBool
 	mockLilacTest.mockLastRaisedResultResult = true
 	mockLilacTest.mockLastLilacDebugMessage = ""
@@ -688,14 +605,6 @@ function case_message_invalidmatcher()
 	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
 	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
 		         "[Lilac] ERROR - Invalid matcher 'beLessThanOrEqualTo' used.")
-
-	mockLilacTest.mockLastRaisedResultResult = true
-	mockLilacTest.mockLastLilacDebugMessage = ""
-
-	mockLilacTest.expectBool(true, to, contain, "foo")
-	expectBool(mockLilacTest.mockLastRaisedResultResult, to, beFalsy)
-	expectString(mockLilacTest.mockLastLilacDebugMessage, to, beEqualTo, \
-		         "[Lilac] ERROR - Invalid matcher 'contain' used.")
 
 	mockLilacTest.mockLastRaisedResultResult = true
 	mockLilacTest.mockLastLilacDebugMessage = ""
